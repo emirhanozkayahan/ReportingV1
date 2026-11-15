@@ -1,0 +1,38 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Orvalot logo preview</title>
+<style>
+  body{margin:0;font:13px/1.4 system-ui,sans-serif;color:#192421;background:#F7F8F5}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:12px}
+  .p{height:230px;display:flex;align-items:center;justify-content:center;gap:28px;border-radius:10px;position:relative}
+  .p span{position:absolute;left:12px;top:10px;font-size:11px;opacity:.6}
+  .wm{width:300px}
+  .row{display:flex;align-items:flex-end;gap:22px}
+  .sz{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px}
+  canvas{image-rendering:pixelated;width:96px;height:96px;border:1px solid #E3E7E3;background:#fff}
+</style></head><body>
+<div class="grid">
+  <div class="p" style="background:#F7F8F5;border:1px solid #E3E7E3"><span>1 · Renkli ana wordmark</span><img class="wm" src="orvalot-wordmark.svg"></div>
+  <div class="p" style="background:#176B5B"><span style="color:#DDF4E9">2 · Deep Teal zeminde ters</span><img class="wm" src="orvalot-wordmark-reversed.svg"></div>
+  <div class="p" style="background:#DDF4E9"><span>3 · Uygulama ikonu</span><img src="orvalot-app-icon.svg" width="150"><img src="orvalot-app-icon-mint.svg" width="96"></div>
+  <div class="p" style="background:#fff;border:1px solid #E3E7E3"><span>4 · Favicon boyut testi (gerçek px → 6× büyütülmüş)</span>
+    <div class="row" id="sizes"></div></div>
+  <div class="p" style="background:#fff;border:1px solid #E3E7E3;flex-direction:column;gap:18px"><span>5 · Tek renk</span>
+    <img class="wm" src="orvalot-wordmark-black.svg" style="width:240px">
+    <div style="display:flex;gap:18px;align-items:center"><img src="orvalot-mark-black.svg" width="56"><img src="orvalot-app-icon-black.svg" width="56"><img src="favicon-black.svg" width="56"></div></div>
+  <div class="p" style="background:#F7F8F5;border:1px solid #E3E7E3;flex-direction:column;gap:22px"><span>6 · Logo + ikon</span>
+    <img src="orvalot-lockup.svg" style="width:320px">
+    <div style="background:#176B5B;padding:14px 18px;border-radius:8px"><img src="orvalot-lockup-reversed.svg" style="width:240px;display:block"></div></div>
+</div>
+<script>
+  const host = document.getElementById('sizes');
+  const draw = (src, n) => new Promise(res => {
+    const img = new Image(); img.onload = () => {
+      const c = document.createElement('canvas'); c.width = n; c.height = n;
+      c.getContext('2d').drawImage(img, 0, 0, n, n);
+      c.style.width = c.style.height = (n * (n <= 32 ? 6 : 1.5)) + 'px';
+      const box = document.createElement('div'); box.className = 'sz';
+      box.append(c, n + 'px'); host.append(box); res();
+    }; img.src = src; });
+  (async () => { for (const n of [16, 24, 32, 64]) await draw('favicon.svg', n); })();
+</script>
+</body></html>

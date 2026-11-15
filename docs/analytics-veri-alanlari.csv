@@ -1,0 +1,80 @@
+Bölüm,Sekme,Alan Adı,Veri Tipi,Açıklama,GA4 Karşılığı,Ekranda Gösteriliyor,Notlar
+Filtre,—,brand_slug,metin,Marka kimliği (navira babokah vb.),Property / filter,—,Tüm veri marka bazlı
+Filtre,—,date_range,metin,today | yesterday | 7d | 14d | 30d,Date range,—,Üst tarih seçici
+Özet,Üst KPI,sessions,sayı,Oturum,Sessions,Evet,Önceki dönem: sessionsChange %
+Özet,Üst KPI,users,sayı,Kullanıcı,Total users,Evet,Önceki dönem: usersChange %
+Özet,Üst KPI,newUsers,sayı,Yeni kullanıcı,New users,Evet,—
+Özet,Üst KPI,returningUsers,sayı,Geri dönen kullanıcı,Returning users,Hayır,users - newUsers
+Özet,Üst KPI,pageViews,sayı,Sayfa görüntüleme,Views,Evet,—
+Özet,Üst KPI,bounceRate,yüzde,Hemen çıkma oranı,Bounce rate,Evet,Önceki dönem: bounceRateChange %
+Özet,Üst KPI,engagementRate,yüzde,Etkileşim oranı,Engagement rate,Evet,Önceki dönem: engagementChange %
+Özet,Üst KPI,avgSessionDuration,metin,Ortalama oturum süresi,Avg session duration,Evet,örn. 3dk 25sn
+Özet,Üst KPI,pagesPerSession,ondalık,Sayfa başına oturum,Pages per session,Evet,—
+Özet,Üst KPI,eventsPerSession,ondalık,Etkinlik başına oturum,Events per session,Hayır,Veride var KPI yok
+Özet,Önceki dönem,prev_sessionsChange,yüzde,Oturum değişimi,Period comparison,Evet,KPI altında
+Özet,Önceki dönem,prev_usersChange,yüzde,Kullanıcı değişimi,Period comparison,Evet,—
+Özet,Önceki dönem,prev_bounceRateChange,yüzde,Hemen çıkma değişimi,Period comparison,Evet,—
+Özet,Önceki dönem,prev_engagementChange,yüzde,Etkileşim değişimi,Period comparison,Evet,—
+Trend,Grafik,dailyTrend_date,tarih,Gün (GG.AA),Date,Evet,Günlük satır
+Trend,Grafik,dailyTrend_sessions,sayı,Günlük oturum,Sessions,Evet,—
+Trend,Grafik,dailyTrend_users,sayı,Günlük kullanıcı,Users,Evet,—
+Trend,Grafik,dailyTrend_bounceRate,yüzde,Günlük hemen çıkma,Bounce rate,Hayır,Veride var grafikte yok
+Trend,Grafik,dailyTrend_pageViews,sayı,Günlük sayfa görüntüleme,Views,Hayır,Veride var grafikte yok
+Dönüşüm,Sağ panel,conversionRate,yüzde,Sipariş tamamlama / oturum,Funnel conversion rate,Evet,purchaseJourney
+Dönüşüm,Sağ panel,avgTimeToConversion,metin,Ortalama dönüşüm süresi,Time to purchase,Evet,—
+Trafik,Trafik Kaynakları,source,metin,Trafik kaynağı,Session source,Evet,örn. google facebook (direct)
+Trafik,Trafik Kaynakları,medium,metin,Trafik ortamı,Session medium,Evet,örn. cpc organic referral email
+Trafik,Trafik Kaynakları,sessions,sayı,Oturum,Sessions,Evet,—
+Trafik,Trafik Kaynakları,users,sayı,Kullanıcı,Users,Evet,—
+Trafik,Trafik Kaynakları,bounceRate,yüzde,Hemen çıkma,Bounce rate,Evet,—
+Trafik,Trafik Kaynakları,conversionRate,yüzde,Dönüşüm oranı,Session conversion rate,Evet,—
+Trafik,Trafik Kaynakları,revenue,sayı (TRY),Gelir,Purchase revenue,Evet,—
+Trafik,Trafik Kaynakları,pagesPerSession,ondalık,Sayfa / oturum,Pages per session,Evet,—
+Yolculuk,Satın Alma Yolculuğu,step,metin,Huni adım adı,Funnel step name,Evet,7 sabit adım
+Yolculuk,Satın Alma Yolculuğu,users,sayı,Adımdaki kullanıcı,Active users in step,Evet,—
+Yolculuk,Satın Alma Yolculuğu,percentage,yüzde,İlk adıma göre oran,Step completion rate,Evet,—
+Yolculuk,Satın Alma Yolculuğu,dropOff,yüzde,Önceki adımdan terk,Abandonment rate,Evet,İlk adım 0
+Yolculuk,Satın Alma Yolculuğu,avgTime,metin,Adımda ortalama süre,Average time,Evet,örn. 45sn
+Yolculuk,Mikro dönüşüm,event,metin,Mikro etkinlik adı,Event name,Evet,—
+Yolculuk,Mikro dönüşüm,count,sayı,Etkinlik adedi,Event count,Evet,—
+Yolculuk,Mikro dönüşüm,rate,yüzde,Oran,Event rate,Evet,—
+Sayfa,Giriş sayfası,path,metin,URL yolu,Landing page path,Evet,—
+Sayfa,Giriş sayfası,title,metin,Sayfa başlığı,Page title,Evet,—
+Sayfa,Giriş sayfası,sessions,sayı,Oturum,Sessions,Evet,—
+Sayfa,Giriş sayfası,bounceRate,yüzde,Hemen çıkma,Bounce rate,Evet,—
+Sayfa,Giriş sayfası,avgSessionDuration,metin,Ort. oturum süresi,Avg session duration,Hayır,Veride var
+Sayfa,Giriş sayfası,conversions,sayı,Dönüşüm adedi,Conversions,Hayır,Veride var
+Sayfa,Giriş sayfası,conversionRate,yüzde,Dönüşüm oranı,Conversion rate,Evet,—
+Sayfa,Sayfa yolu,path,metin,URL yolu,Page path,Evet,—
+Sayfa,Sayfa yolu,title,metin,Sayfa başlığı,Page title,Evet,—
+Sayfa,Sayfa yolu,views,sayı,Görüntüleme,Views,Evet,—
+Sayfa,Sayfa yolu,uniqueViews,sayı,Tekil görüntüleme,Unique views,Hayır,Veride var
+Sayfa,Sayfa yolu,avgTimeOnPage,metin,Sayfada kalma süresi,Average time on page,Hayır,Veride var
+Sayfa,Sayfa yolu,exitRate,yüzde,Çıkış oranı,Exit rate,Evet,—
+Kitle,Cihaz,device,metin,Cihaz türü,Device category,Evet,Mobil iOS Android Masaüstü Tablet
+Kitle,Cihaz,sessions,sayı,Oturum,Sessions,Evet,Grafikte
+Kitle,Cihaz,bounceRate,yüzde,Hemen çıkma,Bounce rate,Hayır,—
+Kitle,Cihaz,conversionRate,yüzde,Dönüşüm oranı,Conversion rate,Hayır,—
+Kitle,Cihaz,revenue,sayı (TRY),Gelir,Revenue,Hayır,—
+Kitle,Cihaz,avgSessionDuration,metin,Ort. oturum süresi,Avg session duration,Hayır,—
+Kitle,Cihaz,pagesPerSession,ondalık,Sayfa / oturum,Pages per session,Hayır,—
+Kitle,Tarayıcı,browser,metin,Tarayıcı adı,Browser,Evet,—
+Kitle,Tarayıcı,sessions,sayı,Oturum,Sessions,Evet,—
+Kitle,Tarayıcı,bounceRate,yüzde,Hemen çıkma,Bounce rate,Hayır,—
+Kitle,Tarayıcı,conversionRate,yüzde,Dönüşüm oranı,Conversion rate,Evet,—
+Kitle,Saatlik,hour,metin,Saat (00:00-23:00),Hour,Evet,24 satır
+Kitle,Saatlik,sessions,sayı,Oturum,Sessions,Evet,—
+Kitle,Saatlik,conversions,sayı,Dönüşüm,Conversions,Evet,—
+Kitle,Yaş-Cinsiyet,ageRange,metin,Yaş aralığı,Age,Hayır,İleride
+Kitle,Yaş-Cinsiyet,male,sayı,Erkek kullanıcı,Gender male,Hayır,—
+Kitle,Yaş-Cinsiyet,female,sayı,Kadın kullanıcı,Gender female,Hayır,—
+Kitle,Yaş-Cinsiyet,total,sayı,Toplam,Total users,Hayır,—
+Kitle,Yaş-Cinsiyet,conversionRate,yüzde,Dönüşüm oranı,Conversion rate,Hayır,—
+Kitle,Haftanın günü,day,metin,Gün adı,Day of week,Hayır,Pazartesi-Pazar
+Kitle,Haftanın günü,sessions,sayı,Oturum,Sessions,Hayır,—
+Kitle,Haftanın günü,conversions,sayı,Dönüşüm,Conversions,Hayır,—
+Kitle,Haftanın günü,revenue,sayı (TRY),Gelir,Revenue,Hayır,—
+Etkinlik,Etkinlikler,eventName,metin,GA4 event adı,Event name,Evet,—
+Etkinlik,Etkinlikler,count,sayı,Toplam etkinlik sayısı,Event count,Evet,—
+Etkinlik,Etkinlikler,users,sayı,Etkinliği yapan kullanıcı,Users,Evet,—
+Etkinlik,Etkinlikler,valuePerEvent,sayı (TRY),Etkinlik başına değer,Event value,Evet,0 ise —

@@ -1,6 +1,8 @@
 const { createClient } = require('@supabase/supabase-js');
-const url = 'https://ddxbemcjfkvslccxtget.supabase.co';
-const key = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRkeGJlbWNqZmt2c2xjY3h0Z2V0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3Njc3MzkzOSwiZXhwIjoyMDkyMzQ5OTM5fQ.WteFSklL_IsK7wAGnnsaO_OYm95Z0G_wI9cKuYsWZxM';
+// Run with: node --env-file=.env.local check_db.js
+const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+if (!url || !key) throw new Error('NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY must be set');
 const supabase = createClient(url, key);
 
 async function run() {

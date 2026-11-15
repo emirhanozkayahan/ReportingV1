@@ -65,8 +65,6 @@ export default function AdminPage() {
   const [newBrandUserPassword, setNewBrandUserPassword] = useState('');
   const [resettingUserId, setResettingUserId] = useState<string | null>(null);
   const [resetUserPassword, setResetUserPassword] = useState('');
-  const [revealedPasswords, setRevealedPasswords] = useState<Record<string, string>>({});
-  const [revealingUserId, setRevealingUserId] = useState<string | null>(null);
 
   // Integration Forms
   const [ikasCreds, setIkasCreds] = useState({ storeName: '', clientId: '', clientSecret: '' });
@@ -438,7 +436,6 @@ export default function AdminPage() {
 
   const fetchBrandUsers = async (brandId: string) => {
     try {
-      setRevealedPasswords({});
       const res = await fetch(`/api/admin/brand-users?brand_id=${brandId}`);
       if (res.ok) {
         const data = await res.json();
@@ -459,7 +456,10 @@ export default function AdminPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ brand_id: selectedBrandId, email: newBrandUserEmail, password: newBrandUserPassword })
       });
-      if (!res.ok) throw new Error('Kullanıcı eklenemedi');
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || 'Kullanıcı eklenemedi');
+      }
       showToast('Kullanıcı eklendi', 'success');
       setNewBrandUserEmail('');
       setNewBrandUserPassword('');
@@ -468,29 +468,6 @@ export default function AdminPage() {
       showToast(err.message, 'error');
     } finally {
       setLoading(prev => ({ ...prev, action: false }));
-    }
-  };
-
-  const togglePasswordReveal = async (userId: string) => {
-    if (revealedPasswords[userId]) {
-      setRevealedPasswords((prev) => {
-        const next = { ...prev };
-        delete next[userId];
-        return next;
-      });
-      return;
-    }
-
-    setRevealingUserId(userId);
-    try {
-      const res = await fetch(`/api/admin/brand-users?id=${userId}`);
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Şifre alınamadı');
-      setRevealedPasswords((prev) => ({ ...prev, [userId]: data.password }));
-    } catch (err: any) {
-      showToast(err.message, 'error');
-    } finally {
-      setRevealingUserId(null);
     }
   };
 
@@ -513,11 +490,6 @@ export default function AdminPage() {
       showToast('Kullanıcı şifresi güncellendi', 'success');
       setResettingUserId(null);
       setResetUserPassword('');
-      setRevealedPasswords((prev) => {
-        const next = { ...prev };
-        delete next[userId];
-        return next;
-      });
     } catch (err: any) {
       showToast(err.message, 'error');
     } finally {
@@ -760,12 +732,9 @@ export default function AdminPage() {
                     onResettingUserIdChange={setResettingUserId}
                     resetUserPassword={resetUserPassword}
                     onResetUserPasswordChange={setResetUserPassword}
-                    revealedPasswords={revealedPasswords}
-                    revealingUserId={revealingUserId}
                     loading={loading.action}
                     onUpdateBrand={handleUpdateBrand}
                     onAddBrandUser={handleAddBrandUser}
-                    onTogglePasswordReveal={togglePasswordReveal}
                     onResetBrandUserPassword={handleResetBrandUserPassword}
                     onDeleteBrandUser={handleDeleteBrandUser}
                     onBackfill={handleBackfillBrand}

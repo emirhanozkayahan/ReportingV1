@@ -49,7 +49,7 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const { name, slug, client_email, client_password, logo_url, ga4_property_id } = body;
+    const { name, slug, logo_url, ga4_property_id } = body;
 
     if (!name || !slug) {
       return NextResponse.json({ error: 'Marka ismi ve slug alanları zorunludur.' }, { status: 400 });
@@ -58,7 +58,7 @@ export async function POST(request: Request) {
     // Markayı veritabanına ekle
     const { data, error } = await supabase
       .from('brands')
-      .insert([{ name, slug, client_email, client_password, logo_url, ga4_property_id }])
+      .insert([{ name, slug, logo_url, ga4_property_id }])
       .select()
       .single();
 

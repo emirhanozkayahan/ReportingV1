@@ -4,8 +4,6 @@ import { useState } from "react";
 import {
   Building2,
   Database,
-  Eye,
-  EyeOff,
   LineChart,
   RotateCw,
   Save,
@@ -33,12 +31,9 @@ type BrandSettingsPanelProps = {
   onResettingUserIdChange: (id: string | null) => void;
   resetUserPassword: string;
   onResetUserPasswordChange: (value: string) => void;
-  revealedPasswords: Record<string, string>;
-  revealingUserId: string | null;
   loading: boolean;
   onUpdateBrand: (e: React.FormEvent) => void;
   onAddBrandUser: (e: React.FormEvent) => void;
-  onTogglePasswordReveal: (userId: string) => void;
   onResetBrandUserPassword: (userId: string) => void;
   onDeleteBrandUser: (id: string) => void;
   onBackfill: () => void;
@@ -70,12 +65,9 @@ export default function BrandSettingsPanel({
   onResettingUserIdChange,
   resetUserPassword,
   onResetUserPasswordChange,
-  revealedPasswords,
-  revealingUserId,
   loading,
   onUpdateBrand,
   onAddBrandUser,
-  onTogglePasswordReveal,
   onResetBrandUserPassword,
   onDeleteBrandUser,
   onBackfill,
@@ -216,23 +208,6 @@ export default function BrandSettingsPanel({
                         <p className="text-sm font-semibold text-slate-800 truncate">
                           {user.email}
                         </p>
-                        <button
-                          type="button"
-                          onClick={() => onTogglePasswordReveal(user.id)}
-                          disabled={revealingUserId === user.id}
-                          className="mt-1 inline-flex items-center gap-1.5 text-xs text-slate-500 hover:text-slate-700"
-                        >
-                          {revealingUserId === user.id ? (
-                            <RotateCw className="w-3.5 h-3.5 animate-spin" />
-                          ) : revealedPasswords[user.id] ? (
-                            <EyeOff className="w-3.5 h-3.5" />
-                          ) : (
-                            <Eye className="w-3.5 h-3.5" />
-                          )}
-                          <span className="font-mono">
-                            {revealedPasswords[user.id] || "Şifreyi göster"}
-                          </span>
-                        </button>
                       </div>
                       <div className="flex items-center gap-1 shrink-0">
                         <button
@@ -245,7 +220,7 @@ export default function BrandSettingsPanel({
                           }}
                           className="px-2.5 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-50 border border-slate-200 rounded-lg"
                         >
-                          Şifre
+                          Şifre sıfırla
                         </button>
                         <button
                           type="button"

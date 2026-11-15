@@ -1,6 +1,7 @@
 -- ============================================
 -- AdReport — full initial schema for a fresh Supabase project
 -- Supersedes database/schema.sql (which lacked integrations and brand_users).
+-- Followed by 20261115_hash_passwords.sql.
 -- ============================================
 
 -- 1. Brands

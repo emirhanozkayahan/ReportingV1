@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import { supabaseAdmin as supabase } from '@/lib/supabase';
+import { verifyBrandUser } from '@/lib/brand-login';
 import {
   SESSION_COOKIE,
   createSessionToken,
@@ -24,20 +24,12 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: true, redirect: '/dashboard' });
     }
 
-    // 2. Marka (müşteri) girişi — brands.client_email / client_password
-    if (supabase) {
-      const { data: brand, error } = await supabase
-        .from('brands')
-        .select('slug')
-        .eq('client_email', email)
-        .eq('client_password', password)
-        .single();
-
-      if (brand && !error) {
-        const { token, maxAge } = createSessionToken({ role: 'brand', slug: brand.slug });
-        cookieStore.set(SESSION_COOKIE, token, sessionCookieOptions(maxAge));
-        return NextResponse.json({ success: true, redirect: `/dashboard/${brand.slug}` });
-      }
+    // 2. Marka (müşteri) girişi — brand_users
+    const slug = await verifyBrandUser(email, password);
+    if (slug) {
+      const { token, maxAge } = createSessionToken({ role: 'brand', slug });
+      cookieStore.set(SESSION_COOKIE, token, sessionCookieOptions(maxAge));
+      return NextResponse.json({ success: true, redirect: `/dashboard/${slug}` });
     }
 
     return NextResponse.json({ error: 'Geçersiz e-posta veya şifre' }, { status: 401 });

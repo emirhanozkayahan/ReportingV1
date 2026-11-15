@@ -1,4 +1,5 @@
-import { createHmac, scryptSync, timingSafeEqual } from 'node:crypto';
+import { createHmac, timingSafeEqual } from 'node:crypto';
+import { verifyPassword } from '@/lib/password';
 
 /**
  * Signed session cookies.
@@ -85,13 +86,6 @@ export function verifyAdminCredentials(email: string, password: string): boolean
     .split(',')
     .map((e) => e.trim().toLowerCase())
     .filter(Boolean);
-  const stored = process.env.ADMIN_PASSWORD_HASH || '';
   if (!emails.includes(email.trim().toLowerCase())) return false;
-
-  const [algo, saltHex, hashHex] = stored.split(':');
-  if (algo !== 'scrypt' || !saltHex || !hashHex) return false;
-
-  const expected = Buffer.from(hashHex, 'hex');
-  const actual = scryptSync(password, Buffer.from(saltHex, 'hex'), expected.length);
-  return timingSafeEqual(expected, actual);
+  return verifyPassword(password, process.env.ADMIN_PASSWORD_HASH);
 }

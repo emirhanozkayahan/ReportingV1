@@ -1,124 +1,292 @@
 @import "tailwindcss";
 
-@theme {
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+/*
+ * Orvalot design tokens
+ * Source of truth: DESIGN.md + brand/colors.md (all text pairs WCAG AA).
+ * Components use the semantic utilities (bg-surface, text-fg, border-line, bg-brand …);
+ * light/dark switch happens here, so components rarely need `dark:` variants.
+ *
+ * Theme: follows the OS by default; <html data-theme="light|dark"> forces one.
+ */
 
-  --color-brand: #F5403F;
-  --color-brand-hover: #D93635;
-  --color-brand-light: #E83837;
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
-  --color-border: hsl(var(--border));
-  --color-input: hsl(var(--input));
-  --color-ring: hsl(var(--ring));
-  --color-background: hsl(var(--background));
-  --color-foreground: hsl(var(--foreground));
+/* ---------- Raw palette (light) ---------- */
+/* data-theme also works on any element, scoping the theme to that subtree. */
+:root,
+[data-theme="light"] {
+  color-scheme: light;
 
-  --color-primary: hsl(var(--primary));
-  --color-primary-foreground: hsl(var(--primary-foreground));
+  --o-bg: #f7f8f5;
+  --o-surface: #ffffff;
+  --o-surface-sunken: #f0f2ee;
+  --o-line: #e3e7e3;
+  --o-line-strong: #cdd3ce;
+  --o-fg: #192421;
+  --o-fg-muted: #5e6b66;
 
-  --color-secondary: hsl(var(--secondary));
-  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --o-brand: #176b5b;
+  --o-brand-hover: #125a4c;
+  --o-on-brand: #ffffff;
+  --o-brand-subtle: #ddf4e9;
+  --o-on-brand-subtle: #176b5b;
 
-  --color-destructive: hsl(var(--destructive));
-  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --o-accent: #ff7657; /* decorative only on light (2.47:1) */
+  --o-accent-fg: #c2452b; /* coral as text */
+  --o-on-accent: #192421;
 
-  --color-muted: hsl(var(--muted));
-  --color-muted-foreground: hsl(var(--muted-foreground));
+  --o-success: #1e7a4f;
+  --o-success-subtle: #e3f3ea;
+  --o-warning: #9a6312;
+  --o-warning-subtle: #fbf0dc;
+  --o-error: #b83838;
+  --o-error-subtle: #fbe6e4;
+  --o-info: #2f6da8;
+  --o-info-subtle: #e4eef8;
 
-  --color-accent: hsl(var(--accent));
-  --color-accent-foreground: hsl(var(--accent-foreground));
+  --o-chart-1: #4560c9;
+  --o-chart-2: #b8770f;
+  --o-chart-3: #8a55a8;
+  --o-chart-4: #3b8fb8;
+  --o-chart-5: #c7487a;
+  --o-chart-6: #6e7f25;
 
-  --color-popover: hsl(var(--popover));
-  --color-popover-foreground: hsl(var(--popover-foreground));
-
-  --color-card: hsl(var(--card));
-  --color-card-foreground: hsl(var(--card-foreground));
-
-  --radius-lg: var(--radius);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-sm: calc(var(--radius) - 4px);
+  --o-focus: #176b5b;
+  --o-shadow-popover: 0 1px 2px rgb(25 36 33 / 0.06), 0 8px 24px -6px rgb(25 36 33 / 0.14);
 }
 
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+/* ---------- Dark (forced) — keep in sync with the prefers-color-scheme block below ---------- */
+[data-theme="dark"] {
+  color-scheme: dark;
+  --o-bg: #0f1614;
+  --o-surface: #17201d;
+  --o-surface-sunken: #121a17;
+  --o-line: #2c3833;
+  --o-line-strong: #3b4842;
+  --o-fg: #eef3f0;
+  --o-fg-muted: #9aa8a2;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+  --o-brand: #5fcfb2;
+  --o-brand-hover: #7ddcc3;
+  --o-on-brand: #0f1614;
+  --o-brand-subtle: #173a31;
+  --o-on-brand-subtle: #9fe6d2;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+  --o-accent: #ff8a6e;
+  --o-accent-fg: #ff8a6e;
+  --o-on-accent: #192421;
 
-    --primary: 0 90% 60%;
-    --primary-foreground: 0 0% 100%;
+  --o-success: #4cc38a;
+  --o-success-subtle: #163626;
+  --o-warning: #e3a43b;
+  --o-warning-subtle: #3a2c12;
+  --o-error: #f07a7a;
+  --o-error-subtle: #3d1e1e;
+  --o-info: #6fa8e0;
+  --o-info-subtle: #172c40;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+  --o-chart-1: #7d93e8;
+  --o-chart-2: #e0a23d;
+  --o-chart-3: #b98ad6;
+  --o-chart-4: #6bb8de;
+  --o-chart-5: #e77da6;
+  --o-chart-6: #a7b75a;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+  --o-focus: #5fcfb2;
+  --o-shadow-popover: 0 1px 2px rgb(0 0 0 / 0.4), 0 12px 32px -8px rgb(0 0 0 / 0.6);
+}
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --o-bg: #0f1614;
+    --o-surface: #17201d;
+    --o-surface-sunken: #121a17;
+    --o-line: #2c3833;
+    --o-line-strong: #3b4842;
+    --o-fg: #eef3f0;
+    --o-fg-muted: #9aa8a2;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --o-brand: #5fcfb2;
+    --o-brand-hover: #7ddcc3;
+    --o-on-brand: #0f1614;
+    --o-brand-subtle: #173a31;
+    --o-on-brand-subtle: #9fe6d2;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 0 90% 60%;
+    --o-accent: #ff8a6e;
+    --o-accent-fg: #ff8a6e;
+    --o-on-accent: #192421;
 
-    --radius: 0.5rem;
-  }
+    --o-success: #4cc38a;
+    --o-success-subtle: #163626;
+    --o-warning: #e3a43b;
+    --o-warning-subtle: #3a2c12;
+    --o-error: #f07a7a;
+    --o-error-subtle: #3d1e1e;
+    --o-info: #6fa8e0;
+    --o-info-subtle: #172c40;
 
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --o-chart-1: #7d93e8;
+    --o-chart-2: #e0a23d;
+    --o-chart-3: #b98ad6;
+    --o-chart-4: #6bb8de;
+    --o-chart-5: #e77da6;
+    --o-chart-6: #a7b75a;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --o-focus: #5fcfb2;
+    --o-shadow-popover: 0 1px 2px rgb(0 0 0 / 0.4), 0 12px 32px -8px rgb(0 0 0 / 0.6);
   }
 }
 
+/* ---------- Tailwind theme (semantic utilities) ---------- */
+@theme inline {
+  /* Fonts — set by next/font in app/layout.tsx */
+  --font-sans: var(--font-plex), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-manrope), var(--font-plex), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Surfaces & text */
+  --color-bg: var(--o-bg);
+  --color-surface: var(--o-surface);
+  --color-sunken: var(--o-surface-sunken);
+  --color-line: var(--o-line);
+  --color-line-strong: var(--o-line-strong);
+  --color-fg: var(--o-fg);
+  --color-fg-muted: var(--o-fg-muted);
+
+  /* Brand */
+  --color-brand: var(--o-brand);
+  --color-brand-hover: var(--o-brand-hover);
+  --color-on-brand: var(--o-on-brand);
+  --color-brand-subtle: var(--o-brand-subtle);
+  --color-on-brand-subtle: var(--o-on-brand-subtle);
+  --color-accent: var(--o-accent);
+  --color-accent-fg: var(--o-accent-fg);
+  --color-on-accent: var(--o-on-accent);
+
+  /* Status */
+  --color-success: var(--o-success);
+  --color-success-subtle: var(--o-success-subtle);
+  --color-warning: var(--o-warning);
+  --color-warning-subtle: var(--o-warning-subtle);
+  --color-error: var(--o-error);
+  --color-error-subtle: var(--o-error-subtle);
+  --color-info: var(--o-info);
+  --color-info-subtle: var(--o-info-subtle);
+
+  /* Charts */
+  --color-chart-1: var(--o-chart-1);
+  --color-chart-2: var(--o-chart-2);
+  --color-chart-3: var(--o-chart-3);
+  --color-chart-4: var(--o-chart-4);
+  --color-chart-5: var(--o-chart-5);
+  --color-chart-6: var(--o-chart-6);
+
+  --color-focus: var(--o-focus);
+
+  /* Legacy aliases (pre-Orvalot screens). Remove once every screen uses the names above. */
+  --color-background: var(--o-bg);
+  --color-foreground: var(--o-fg);
+  --color-card: var(--o-surface);
+  --color-card-foreground: var(--o-fg);
+  --color-muted: var(--o-surface-sunken);
+  --color-muted-foreground: var(--o-fg-muted);
+  --color-primary: var(--o-brand);
+  --color-primary-foreground: var(--o-on-brand);
+  --color-border: var(--o-line);
+  --color-destructive: var(--o-error);
+
+  /* Type scale (size / line-height / weight) */
+  --text-page: 28px;
+  --text-page--line-height: 36px;
+  --text-page--font-weight: 600;
+  --text-section: 20px;
+  --text-section--line-height: 28px;
+  --text-section--font-weight: 600;
+  --text-card: 15px;
+  --text-card--line-height: 22px;
+  --text-card--font-weight: 600;
+  --text-body: 14px;
+  --text-body--line-height: 22px;
+  --text-label: 12px;
+  --text-label--line-height: 18px;
+  --text-label--font-weight: 500;
+  --text-kpi: 30px;
+  --text-kpi--line-height: 38px;
+  --text-kpi--font-weight: 600;
+
+  /* Radius */
+  --radius-input: 6px;
+  --radius-button: 8px;
+  --radius-card: 10px;
+  --radius-modal: 12px;
+
+  /* Elevation — cards use borders, only overlays get shadow */
+  --shadow-popover: var(--o-shadow-popover);
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --duration-fast: 120ms;
+  --duration-base: 180ms;
+  --duration-slow: 220ms;
+}
+
+/* ---------- Base ---------- */
 @layer base {
   * {
-    @apply border-border;
+    border-color: var(--o-line);
+  }
+  html {
+    background: var(--o-bg);
   }
   body {
-    @apply bg-background text-foreground;
+    background: var(--o-bg);
+    color: var(--o-fg);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 22px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+  :focus-visible {
+    outline: 2px solid var(--o-focus);
+    outline-offset: 2px;
+  }
+  ::selection {
+    background: var(--o-brand-subtle);
+    color: var(--o-fg);
+  }
+}
+
+/* Numbers in tables/KPIs never jump */
+@utility num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
 /* no-scrollbar utility */
-.no-scrollbar::-webkit-scrollbar { display: none; }
-.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-/* Mobile date picker icon style */
-input[type="date"]::-webkit-calendar-picker-indicator {
-  filter: invert(0.7) sepia(1) saturate(2) hue-rotate(180deg);
-  cursor: pointer;
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

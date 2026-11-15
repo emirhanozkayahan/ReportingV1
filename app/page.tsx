@@ -1,104 +1,42 @@
-'use client';
+import type { Metadata } from "next";
+import { Header } from "@/components/landing/header";
+import { Hero } from "@/components/landing/hero";
+import { ProductPreview } from "@/components/landing/product-preview";
+import { Compare } from "@/components/landing/compare";
+import { Features } from "@/components/landing/features";
+import { Steps } from "@/components/landing/steps";
+import { Integrations } from "@/components/landing/integrations";
+import { FinalCta } from "@/components/landing/final-cta";
+import { Footer } from "@/components/landing/footer";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Loader2 } from 'lucide-react';
-import LoginShell from '@/components/auth/login-shell';
+export const metadata: Metadata = {
+  title: { absolute: "Orvalot — Ajanslar için performans raporlama" },
+  description:
+    "Orvalot; Meta, Google ve e-ticaret verilerini her gün tek bir panelde toplar. Ajanslar tüm markaları bir bakışta görür, müşteriler kendi panellerini ay sonunu beklemeden açar.",
+};
 
-const inputClassName =
-  'w-full px-3.5 py-2.5 bg-slate-50/50 border border-slate-200 rounded-xl text-slate-900 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#F5403F]/20 focus:border-[#F5403F]/50 focus:bg-white transition-all';
-
-const buttonClassName =
-  'w-full py-2.5 bg-[#F5403F] text-white hover:bg-[#D93635] font-medium rounded-xl shadow-lg shadow-[#F5403F]/20 hover:shadow-[#F5403F]/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none flex items-center justify-center gap-2 mt-2';
-
-export default function Home() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-  const router = useRouter();
-
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!password || !email) return;
-
-    setLoading(true);
-    setError('');
-
-    try {
-      const res = await fetch('/api/auth/client-login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await res.json();
-
-      if (res.ok && data.success) {
-        router.push(data.redirect);
-        router.refresh();
-      } else {
-        setError(data.error || 'Geçersiz e-posta veya şifre, lütfen tekrar deneyin.');
-      }
-    } catch {
-      setError('Bir hata oluştu, lütfen daha sonra tekrar deneyin.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
+export default function LandingPage() {
   return (
-    <LoginShell
-      title="Giriş Yap"
-      subtitle="E-ticaret ve reklam performansınızı tek ekranda takip edin."
-      error={error}
-    >
-      <form onSubmit={handleLogin} className="space-y-4">
-        <div>
-          <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1.5">
-            E-posta
-          </label>
-          <input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="ornek@marka.com"
-            autoComplete="email"
-            className={inputClassName}
-            autoFocus
-            required
-          />
-        </div>
-
-        <div>
-          <label htmlFor="password" className="block text-sm font-medium text-slate-700 mb-1.5">
-            Şifre
-          </label>
-          <input
-            id="password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="••••••••"
-            autoComplete="current-password"
-            className={inputClassName}
-            required
-          />
-        </div>
-
-        <button
-          type="submit"
-          disabled={loading || !password || !email}
-          className={buttonClassName}
-        >
-          {loading ? (
-            <Loader2 className="w-4 h-4 animate-spin" />
-          ) : (
-            'Giriş Yap'
-          )}
-        </button>
-      </form>
-    </LoginShell>
+    <>
+      <a
+        href="#icerik"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-button focus:bg-surface focus:px-3 focus:py-2 focus:text-body focus:text-fg"
+      >
+        İçeriğe geç
+      </a>
+      <Header />
+      <main id="icerik">
+        <Hero />
+        <section aria-label="Ürün önizlemesi" className="px-4 pb-4 md:px-6">
+          <ProductPreview />
+        </section>
+        <Compare />
+        <Features />
+        <Steps />
+        <Integrations />
+        <FinalCta />
+      </main>
+      <Footer />
+    </>
   );
 }

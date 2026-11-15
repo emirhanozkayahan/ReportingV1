@@ -1,15 +1,9 @@
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
 import {
   buildAgencyOverview,
   buildMockAgencyOverview,
 } from "@/lib/agency-overview";
-
-async function checkAgencyAuth() {
-  const cookieStore = await cookies();
-  const agencyAuth = cookieStore.get("agency_auth");
-  return agencyAuth?.value === "true";
-}
+import { isAgencySession as checkAgencyAuth } from "@/lib/auth";
 
 export async function GET(request: Request) {
   if (!(await checkAgencyAuth())) {

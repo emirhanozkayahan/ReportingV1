@@ -1,13 +1,6 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin as supabase } from '@/lib/supabase';
-import { cookies } from 'next/headers';
-
-// Basit yetki kontrolü
-async function checkAuth() {
-  const cookieStore = await cookies();
-  const agencyAuth = cookieStore.get('agency_auth');
-  return agencyAuth && agencyAuth.value === 'true';
-}
+import { isAgencySession as checkAuth } from '@/lib/auth';
 
 export async function GET(request: Request) {
   if (!(await checkAuth())) return NextResponse.json({ error: 'Yetkisiz erişim' }, { status: 401 });

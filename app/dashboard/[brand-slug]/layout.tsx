@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { supabaseAdmin } from "@/lib/supabase";
 import DashboardSidebar from "@/components/dashboard-sidebar";
 import LastBrandTracker from "@/components/dashboard/last-brand-tracker";
-import { cookies } from "next/headers";
+import { isAgencySession } from "@/lib/auth";
 import { ECOMMERCE_PLATFORM_IDS } from "@/lib/admin-platforms";
 
 export const dynamic = "force-dynamic";
@@ -56,9 +56,7 @@ export default async function DashboardLayout({
     isMocked = true;
   }
 
-  const cookieStore = await cookies();
-  const agencyAuth = cookieStore.get("agency_auth");
-  const isAgency = agencyAuth && agencyAuth.value === "true";
+  const isAgency = await isAgencySession();
 
   return (
     <div className="min-h-screen bg-[#FAFAFA]">

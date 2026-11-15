@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { supabaseAdmin as supabase } from '@/lib/supabase';
+import { SESSION_COOKIE, createSessionToken, sessionCookieOptions } from '@/lib/session';
 
 export async function POST(request: Request) {
   try {
@@ -32,18 +33,11 @@ export async function POST(request: Request) {
 
         if (brand && !brandError) {
           const cookieStore = await cookies();
-          
-          // Müşteri girişi yapıldığında, olası eski Admin yetkisini browser'dan sil.
-          // Böylece admin hesabıyla test eden kişi de kendini tam olarak bir müşteri gibi görür.
-          cookieStore.delete('agency_auth');
 
-          cookieStore.set('brand_auth', brand.slug, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'lax',
-            path: '/',
-            maxAge: 60 * 60 * 24 * 30 // 30 gün boyunca hatırla
-          });
+          // Tek oturum çerezi: müşteri girişi olası admin oturumunun yerine geçer,
+          // böylece admin hesabıyla test eden kişi kendini tam olarak müşteri gibi görür.
+          const { token, maxAge } = createSessionToken({ role: 'brand', slug: brand.slug });
+          cookieStore.set(SESSION_COOKIE, token, sessionCookieOptions(maxAge));
 
           return NextResponse.json({ success: true, redirect: `/dashboard/${brand.slug}` });
         }

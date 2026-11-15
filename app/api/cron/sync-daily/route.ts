@@ -8,10 +8,11 @@ import { SyncEngine } from '@/lib/sync/engine';
 export async function GET(request: Request) {
   try {
     // Güvenlik: Cron tetiklemelerinin sadece yetkili servislerden (örn. Vercel) geldiğinden emin ol
+    // CRON_SECRET tanımlı değilse production'da her istek reddedilir.
     const authHeader = request.headers.get('authorization');
-    const expectedSecret = `Bearer ${process.env.CRON_SECRET}`;
-    
-    if (process.env.NODE_ENV === 'production' && authHeader !== expectedSecret) {
+    const secret = process.env.CRON_SECRET;
+
+    if (process.env.NODE_ENV === 'production' && (!secret || authHeader !== `Bearer ${secret}`)) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
